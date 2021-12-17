@@ -41,7 +41,14 @@ export const updateThought = async(req, res) => {
     res.json(updatedThought)
 }
 
+
+
 export const getThoughtsNear = async(req, res) => {
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min)
+    }
     console.log(req.params)
     const long = req.params.long
     const lat = req.params.lat
@@ -58,6 +65,17 @@ export const getThoughtsNear = async(req, res) => {
         }
     }).find((error, results) => {
         if(error) console.log(error)
+        // randomly offset the coordinates so exact location is unknown
+        results.forEach(r => {
+            let o = 400
+            let offset1 = getRandomInt(-o, o);
+            let offset2 = getRandomInt(-o, o);
+            let d = 111111;
+
+            r.location.coordinates[0] += offset1 / d
+            r.location.coordinates[1] += offset2 / d
+        })
+        
         res.json(results)
     })
 }
