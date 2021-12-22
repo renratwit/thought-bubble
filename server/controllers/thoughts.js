@@ -79,3 +79,27 @@ export const getThoughtsNear = async(req, res) => {
         res.json(results)
     })
 }
+
+export const voteUp = async(req, res) => {
+    console.log('Up Vote');
+    const {id: _id} = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(400).send("_ID NOT FOUND");
+
+    const post = await ThoughtMessage.findById(_id)
+
+    const updatedData = await ThoughtMessage.findByIdAndUpdate(_id, {rating: post.rating + 1}, {new: true});
+    return res.json(updatedData)
+}
+
+export const voteDown = async(req, res) => {
+    console.log('Down Vote');
+    const {id: _id} = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(400).send("_ID NOT FOUND");
+
+    const post = await ThoughtMessage.findById(_id)
+
+    const updatedData = await ThoughtMessage.findByIdAndUpdate(_id, {rating: post.rating - 1}, {new: true});
+    return res.json(updatedData)
+}
