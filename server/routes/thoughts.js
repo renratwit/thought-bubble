@@ -15,7 +15,7 @@ router.delete('/:id', deleteThoughtByID)
 
 router.get('/near/:long/:lat', getThoughtsNear)
 
-router.patch('/:id/voteUp', voteUp)
-router.patch('/:id/voteDown', voteDown)
+router.patch('/:id/:email/voteUp', voteUp)
+router.patch('/:id/:email/voteDown', voteDown)
 
 export default router;

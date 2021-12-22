@@ -81,25 +81,38 @@ export const getThoughtsNear = async(req, res) => {
 }
 
 export const voteUp = async(req, res) => {
-    console.log('Up Vote');
+    console.log('Up Vote', req.params);
     const {id: _id} = req.params
+    const email = req.params.email;
 
     if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(400).send("_ID NOT FOUND");
 
     const post = await ThoughtMessage.findById(_id)
 
-    const updatedData = await ThoughtMessage.findByIdAndUpdate(_id, {rating: post.rating + 1}, {new: true});
+    const updatedData = await ThoughtMessage.findByIdAndUpdate(_id, 
+        {rating: post.rating + 1, 
+        $addToSet: {upVoted: [email]},
+        $pull: {downVoted: {$in: [email]}}
+        },
+        {new: true});
     return res.json(updatedData)
 }
 
 export const voteDown = async(req, res) => {
     console.log('Down Vote');
     const {id: _id} = req.params
+    const email = req.params.email
 
     if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(400).send("_ID NOT FOUND");
 
     const post = await ThoughtMessage.findById(_id)
 
-    const updatedData = await ThoughtMessage.findByIdAndUpdate(_id, {rating: post.rating - 1}, {new: true});
+    const updatedData = await ThoughtMessage.findByIdAndUpdate(_id,
+        {
+        rating: post.rating - 1,
+        $addToSet: {downVoted: [email]},
+        $pull: {upVoted: {$in: [email]}}
+        },
+        {new: true});
     return res.json(updatedData)
 }
