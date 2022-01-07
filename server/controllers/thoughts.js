@@ -118,5 +118,22 @@ export const voteDown = async(req, res) => {
 }
 
 export const postComment = async(req, res) => {
-    console.log(req.params)
+    console.log("Header", req.header)
+    console.log("Posting comment ", req.params)
+    try{
+        const {id: _id} = req.params;
+        const comment = req.params.comment
+    
+        if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(400).send("_ID NOT FOUND");
+    
+        const updatedData = await ThoughtMessage.findByIdAndUpdate(_id,
+            {
+            $addToSet: {comments: [comment]},
+            },
+            {new: true});
+        return res.json(updatedData);
+    } catch(e) {
+        console.log(e)
+    }
+   
 }
