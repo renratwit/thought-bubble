@@ -116,3 +116,7 @@ export const voteDown = async(req, res) => {
         {new: true});
     return res.json(updatedData)
 }
+
+export const postComment = async(req, res) => {
+    console.log(req.params)
+}

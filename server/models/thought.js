@@ -6,6 +6,7 @@ const thoughtSchema = mongoose.Schema({
     rating: Number,
     upVoted: Array,
     downVoted: Array,
+    comments: Array,
     
     location: {
         type: {type: String},

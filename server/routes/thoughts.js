@@ -1,7 +1,7 @@
 import express from 'express'
 import ThoughtMessage from "../models/thought.js";
 import User from "../models/user.js"
-import { deleteThoughtByID, getThoughts , getThoughtsNear, postThoughts, updateThought, voteDown, voteUp } from '../controllers/thoughts.js';
+import { deleteThoughtByID, getThoughts , getThoughtsNear, postThoughts, updateThought, voteDown, voteUp , postComment} from '../controllers/thoughts.js';
 
 const router = express.Router();
 
@@ -18,4 +18,5 @@ router.get('/near/:long/:lat', getThoughtsNear)
 router.patch('/:id/:email/voteUp', voteUp)
 router.patch('/:id/:email/voteDown', voteDown)
 
+router.patch('/:id/:comment/postComment', postComment)
 export default router;
