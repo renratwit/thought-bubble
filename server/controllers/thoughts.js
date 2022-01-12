@@ -56,7 +56,7 @@ export const getThoughtsNear = async(req, res) => {
     await ThoughtMessage.find({
         location: {
             $near: {
-                $maxDistance: 2000,
+                $maxDistance: 10000,
                 $geometry: {
                     type: "Point",
                     coordinates: [long, lat]
