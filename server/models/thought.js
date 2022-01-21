@@ -7,7 +7,7 @@ const thoughtSchema = mongoose.Schema({
     upVoted: Array,
     downVoted: Array,
     comments: Array,
-    
+    dateCreated: Date,
     location: {
         type: {type: String},
         coordinates: {type: [Number]},
