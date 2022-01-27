@@ -73,7 +73,7 @@ export const getThoughtsNear = async(req, res) => {
                 let offset2 = getRandomInt(-o, o);
                 let d = 111111;
                 
-                console.log("Date: ", r.dateCreated)
+                // console.log("Date: ", r.dateCreated)
                 r.location.coordinates[0] += offset1 / d
                 r.location.coordinates[1] += offset2 / d
             })

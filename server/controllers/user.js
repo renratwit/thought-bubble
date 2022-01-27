@@ -11,12 +11,18 @@ export const getUsers = async(req, res) => {
 }
 
 export const createUsers = async(req, res) => {
-    const user = req.body
-    const newUser = new User(user)
+    try{
+        console.log("Creating user ", req.body)
+        const user = await User.create({name: req.body.name, email: req.body.email, password: req.body.password})
+        res.json({status: 'ok'})
+    }catch(e) {console.error(e)}
+}
+
+export const loginUser = async(req, res) => {
+    console.log(req.body)
     try {
-        await newUser.save();
-        res.status(201).json(newUser)
-    } catch(e) {
-        console.log(e)
+
+    }catch(e) {
+        console.error(e)
     }
 }
