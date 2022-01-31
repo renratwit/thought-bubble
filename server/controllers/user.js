@@ -13,9 +13,9 @@ export const getUsers = async(req, res) => {
 export const createUsers = async(req, res) => {
     try{
         console.log("Creating user ", req.body)
-        // const user = await User.create({name: req.body.name, email: req.body.email, password: req.body.password})
-        const newUser = new User(req.body)
-        newUser.save();
+        const user = await User.create({name: req.body.name, email: req.body.email, password: req.body.password})
+        // const newUser = new User(req.body)
+        // newUser.save();
         res.json({status: 'ok'})
     }catch(e) {res.json({ status: 'error', error: 'Duplicate email' })}
 }
