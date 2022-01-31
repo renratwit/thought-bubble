@@ -21,16 +21,15 @@ export const createUsers = async(req, res) => {
 }
 
 export const loginUser = async(req, res) => {
-    console.log(req.body)
-    try {
-        const user = await User.findOne({email: req.body.email, password: req.body.password});
-        if (user) {
-            return res.json({status: 'ok', user: true})
-        } else {
-            return res.json({status: 'error', user: false})
-        }
+    console.log("logging in ",req.body)
 
-    }catch(e) {
-        console.error(e)
+    const user = await User.findOne({email: req.body.email, password: req.body.password});
+    if (user) {
+        console.log('User ', user)
+        return res.json({status: 'ok', user: true})
+    } else {
+        console.log('no user found')
+        return res.json({status: 'error', user: false})
     }
+
 }
