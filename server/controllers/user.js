@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken'
 
 
 export const getUsers = async(req, res) => {
@@ -25,8 +26,14 @@ export const loginUser = async(req, res) => {
 
     const user = await User.findOne({email: req.body.email, password: req.body.password});
     if (user) {
+
+        const token = jwt.sign({
+            name: user.name,
+            email: user.email
+        }, 'secret123')
+
         console.log('User ', user)
-        return res.json({status: 'ok', user: true})
+        return res.json({status: 'ok', user: token})
     } else {
         console.log('no user found')
         return res.json({status: 'error', user: false})
