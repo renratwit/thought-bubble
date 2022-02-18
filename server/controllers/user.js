@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken'
 import bcryptjs from "bcryptjs";
 
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const getUsers = async(req, res) => {
     console.log(req.params)
@@ -32,14 +34,14 @@ export const loginUser = async(req, res) => {
     });
 
     if (!user) return {status: 'error', error: 'Invalid Login'};
-    
+
     const isPasswordValid = await bcryptjs.compare(req.body.password, user.password);
 
     if (isPasswordValid) {
         const token = jwt.sign({
             name: user.name,
             email: user.email
-        }, 'secret123')
+        }, process.env.JWT_SECRET)
 
         console.log('User ', user)
         return res.json({status: 'ok', user: token})

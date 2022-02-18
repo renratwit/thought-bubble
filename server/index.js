@@ -6,18 +6,10 @@ import cors from 'cors'
 import thoughtRoutes from './routes/thoughts.js'
 import userRoutes from './routes/users.js'
 import dotenv from 'dotenv'
-import https from 'https'
 import fs from 'fs'
-import jwt from 'jsonwebtoken'
 
 let key = fs.readFileSync('./selfsigned.key')
 let cert = fs.readFileSync('./selfsigned.crt')
-
-let options = {
-    key: key,
-    cert: cert,
-    ssl: true,
-}
 
 const app = express();
 dotenv.config();
