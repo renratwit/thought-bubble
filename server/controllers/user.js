@@ -26,9 +26,16 @@ export const createUsers = async(req, res) => {
 export const loginUser = async(req, res) => {
     console.log("logging in ",req.body)
 
-    const user = await User.findOne({email: req.body.email, password: req.body.password});
-    if (user) {
+    const user = await User.findOne({
+        email: req.body.email, 
+        // password: req.body.password
+    });
 
+    if (!user) return {status: 'error', error: 'Invalid Login'};
+    
+    const isPasswordValid = await bcryptjs.compare(req.body.password, user.password);
+
+    if (isPasswordValid) {
         const token = jwt.sign({
             name: user.name,
             email: user.email
