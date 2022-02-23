@@ -146,3 +146,33 @@ export const postComment = async(req, res) => {
     }
    
 }
+
+export const likePost = async(req, res) => {
+    console.log('Like Post', req.params)
+    const id = req.params._id;
+    const email = req.params.email;
+    console.log(id)
+    console.log(email)
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('ID NOT FOUND');
+        const post = await ThoughtMessage.findById(id);
+        // console.log(post)
+
+        const newData = await ThoughtMessage.findByIdAndUpdate(id,
+            {
+                rating: post.rating + 1,
+                $addToSet: {upVoted: [email]}
+            },
+            {new: true}
+            );
+
+        console.log("here")   
+         
+        return res.json(newData);
+
+    } catch(e) {
+        console.log(e)
+    }
+    console.log("foo")
+}
