@@ -64,7 +64,7 @@ export const getThoughtsNear = async(req, res) => {
                     }
                 }
             }
-        }).find((error, results) => {
+        }).clone().find((error, results) => {
             if(error) console.log(error)
             // randomly offset the coordinates so exact location is unknown
             results.forEach(r => {
@@ -82,7 +82,7 @@ export const getThoughtsNear = async(req, res) => {
             
         
             res.json(results)
-        })
+        }).clone();
     } catch (e) {
         console.error(e)
     }
