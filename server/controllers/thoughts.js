@@ -54,7 +54,7 @@ export const getThoughtsNear = async(req, res) => {
     const lat = req.params.lat
     console.log(`My Coords: ${long} ${lat}`)
     try {
-        await ThoughtMessage.find({
+        let results = await ThoughtMessage.find({
             location: {
                 $near: {
                     $maxDistance: 10000,
@@ -64,9 +64,9 @@ export const getThoughtsNear = async(req, res) => {
                     }
                 }
             }
-        }).clone().find((error, results) => {
-            if(error) console.log(error)
-            // randomly offset the coordinates so exact location is unknown
+        })
+
+        if (results) {
             results.forEach(r => {
                 let o = 400
                 let offset1 = getRandomInt(-o, o);
@@ -82,7 +82,26 @@ export const getThoughtsNear = async(req, res) => {
             
         
             res.json(results)
-        }).clone();
+        }
+        // .find((error, results) => {
+        //     if(error) console.log(error)
+        //     // randomly offset the coordinates so exact location is unknown
+        //     results.forEach(r => {
+        //         let o = 400
+        //         let offset1 = getRandomInt(-o, o);
+        //         let offset2 = getRandomInt(-o, o);
+        //         let d = 111111;
+                
+        //         // console.log("Date: ", r.dateCreated)
+        //         r.location.coordinates[0] += offset1 / d
+        //         r.location.coordinates[1] += offset2 / d
+        //     })
+
+        //     results.sort((a, b) => b.dateCreated - a.dateCreated)
+            
+        
+        //     res.json(results)
+        // });
     } catch (e) {
         console.error(e)
     }
